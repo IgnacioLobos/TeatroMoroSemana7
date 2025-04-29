@@ -641,11 +641,13 @@ public class TeatroMoroSemana7 {
                                                     if (fila == 1) filaVip1[asiento - 1] = false;
                                                     else if (fila == 2) filaVip2[asiento - 1] = false;
                                                     else if (fila == 3) filaVip3[asiento - 1] = false;
-                                                } else if (tipoEntrada.equals("Platea Baja")) {
+                                                } 
+                                                else if (tipoEntrada.equals("Platea Baja")) {
                                                     if (fila == 1) filaPlateaBaja1[asiento - 1] = false;
                                                     else if (fila == 2) filaPlateaBaja2[asiento - 1] = false;
                                                     else if (fila == 3) filaPlateaBaja3[asiento - 1] = false;
-                                                } else if (tipoEntrada.equals("Platea Alta")) {
+                                                } 
+                                                else if (tipoEntrada.equals("Platea Alta")) {
                                                     if (fila == 1) filaPlateaAlta1[asiento - 1] = false;
                                                     else if (fila == 2) filaPlateaAlta2[asiento - 1] = false;
                                                     else if (fila == 3) filaPlateaAlta3[asiento - 1] = false;
