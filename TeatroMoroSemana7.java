@@ -46,7 +46,7 @@ public class TeatroMoroSemana7 {
             }
             System.out.println();
         }       
-    }
+    } 
 
     private static int filaSeleccionada;
     private static int asientoSeleccionado;
@@ -139,34 +139,78 @@ public class TeatroMoroSemana7 {
         return true;
     }
 
+    
     private static String tarifaSeleccionada = "";
+    private static double totalValorEntradaSeleccionada;
+    
+    public static double calcularDescuento(Scanner sc, double precioBase) {
+        String saltoDeLinea = System.lineSeparator();   
+        
+        while (true) {
+            System.out.println(saltoDeLinea + "Desea comprar esta entrada con un descuento de promoción?" + saltoDeLinea + "(Escriba 1 para Estudiantes, 2 para Tercera Edad, 0 para no aplicar promoción):");
+            int tarifa;
+            tarifa = sc.nextInt();
 
-    public static double calcularDescuento(Scanner sc, double precioBase, int promocion) {
-        String saltoDeLinea = System.lineSeparator();
-        System.out.println(saltoDeLinea +"Desea comprar esta entrada con un descuento de promocion?" + saltoDeLinea + "(Escriba 1 para Estudiantes, 2 para Tercera edad. 0 Para no aplicar promocion.)");
-        promocion = sc.nextInt();
-
-        switch (promocion) {
-            case 1 -> {
-                System.out.println("Se ha escogido la tarifa dirigida a estudiantes. Se aplicara un descuento del 10%.");
-                tarifaSeleccionada = "Estudiante";
-                return precioBase * 0.9;
-            }
-            case 2 -> {
-                System.out.println("Se ha escogido la tarifa dirigida a la tercera edad. Se aplicara un descuento del 15%.");
-                tarifaSeleccionada = "Tercera Edad";
-                return precioBase * 0.85;
-            }
-            case 0 -> {
-                System.out.println("Sin descuento. Se aplicara la tarifa de Publico General.");
-                tarifaSeleccionada = "Publico General";
-                return precioBase;
-            }
-            default -> {
-                System.out.println("Por favor, ingrese un número válido.");
-                return precioBase;
+            switch (tarifa) {
+                case 1 -> {
+                    System.out.println("Se ha escogido la tarifa dirigida a estudiantes. Se aplicará un descuento del 10%.");
+                    tarifaSeleccionada = "Estudiante";
+                    totalValorEntradaSeleccionada = precioBase * 0.9;
+                    return totalValorEntradaSeleccionada = precioBase * 0.9;
+                }
+                case 2 -> {
+                    System.out.println("Se ha escogido la tarifa dirigida a la tercera edad. Se aplicará un descuento del 15%.");
+                    tarifaSeleccionada = "Tercera Edad";
+                    totalValorEntradaSeleccionada = precioBase * 0.85;
+                    return totalValorEntradaSeleccionada = precioBase * 0.85;
+                }
+                case 0 -> {
+                    System.out.println("Sin descuento. Se aplicará la tarifa de Público General.");
+                    tarifaSeleccionada = "Público General";
+                    totalValorEntradaSeleccionada = precioBase;
+                    return totalValorEntradaSeleccionada = precioBase;
+                }
+                default -> {
+                    System.out.println("Opción inválida. Intente nuevamente.");
+                }
             }
         }
+    }
+
+
+    private static final ArrayList<String> historialTipoDeEntrada = new ArrayList<>();
+    private static final ArrayList<Integer> historialFilas = new ArrayList<>();
+    private static final ArrayList<Integer> historialAsientos = new ArrayList<>();
+    private static final ArrayList<String> historialTarifas = new ArrayList<>();
+    private static final ArrayList<Double> historialPrecios = new ArrayList<>();
+    private static final ArrayList<Double> historialPrecioFinal = new ArrayList<>();
+
+    public static void añadirAlCarrito(String sector, int asiento, int fila, String tarifa, double precioBase, double precioFinal) {
+
+        historialTipoDeEntrada.add(sector);
+        historialAsientos.add(asiento);
+        historialFilas.add(fila);
+        historialTarifas.add(tarifa);
+        historialPrecios.add(precioBase);
+        historialPrecioFinal.add(totalValorEntradaSeleccionada);
+    }
+
+    private static final ArrayList<String> historialTipoDeEntradaReserva = new ArrayList<>();
+    private static final ArrayList<Integer> historialFilasReserva = new ArrayList<>();
+    private static final ArrayList<Integer> historialAsientosReserva = new ArrayList<>();
+    private static final ArrayList<String> historialTarifasReserva = new ArrayList<>();
+    private static final ArrayList<Double> historialPreciosReserva = new ArrayList<>();
+    private static final ArrayList<Double> historialPrecioFinalReserva = new ArrayList<>();
+
+
+    public static void añadirAlCarritoReserva(String sector, int asiento, int fila, String tarifa, double precioBase, double precioFinal) {
+
+        historialTipoDeEntradaReserva.add(sector);
+        historialAsientosReserva.add(asiento);
+        historialFilasReserva.add(fila);
+        historialTarifasReserva.add(tarifa);
+        historialPreciosReserva.add(precioBase);
+        historialPrecioFinalReserva.add(totalValorEntradaSeleccionada);
     }
 
     public static void main(String[] args) {
@@ -174,7 +218,6 @@ public class TeatroMoroSemana7 {
         String saltoDeLinea = System.lineSeparator();
         Scanner sc = new Scanner(System.in);
 
-        int promocion = 0;
         int opcionMenu = 0;
         int opcionMenuRetorno = 0;
         int opcionEliminarEntrada = 0;
@@ -187,28 +230,14 @@ public class TeatroMoroSemana7 {
         final double precioPlateaBaja = 15000;
         final double precioPlateaAlta = 18000;
 
-        int asientoSel = 0;
+        int asientoSel;
 
         int entradasSolicitadas;
         int entradasConfirmadas = 0;
         int numeroTotalEntradas = 0;
         int numeroTotalEntradasReservadas = 0;
 
-        ArrayList<String> historialTipoDeEntrada = new ArrayList<>();
-        ArrayList<Integer> historialFilas = new ArrayList<>();
-        ArrayList<Integer> historialAsientos = new ArrayList<>();
-        ArrayList<String> historialTarifas = new ArrayList<>();
-        ArrayList<Double> historialPrecios = new ArrayList<>();
-
         ArrayList<Double> historialPrecioFinal = new ArrayList<>();
-
-        ArrayList<String> historialTipoDeEntradaReserva = new ArrayList<>();
-        ArrayList<Integer> historialFilasReserva = new ArrayList<>();
-        ArrayList<Integer> historialAsientosReserva = new ArrayList<>();
-        ArrayList<String> historialTarifasReserva = new ArrayList<>();
-        ArrayList<Double> historialPreciosReserva = new ArrayList<>();
-
-        ArrayList<Double> historialPrecioFinalReserva = new ArrayList<>();
 
         double totalValorEntradaSeleccionada = 0;
         double totalCompras = 0;
@@ -258,16 +287,9 @@ public class TeatroMoroSemana7 {
                                         }
 
                                         mostrarPlanoAsientos(filasVip, asientosVip, filaVip1, filaVip2, filaVip3);
-                                        totalValorEntradaSeleccionada = calcularDescuento(sc, precioVip, promocion);
-
-                                        historialTipoDeEntrada.add(j, sectorVip);
-                                        historialAsientos.add(j, asientoSeleccionado);
-                                        historialFilas.add(j, filaSeleccionada);
-                                        historialTarifas.add(j, tarifaSeleccionada);
-                                        historialPrecios.add(j, precioVip);
-
-                                        historialPrecioFinal.add(j, totalValorEntradaSeleccionada);
-                                        j = j + 1;
+                                        calcularDescuento(sc, precioVip);                                       
+                                        añadirAlCarrito(sectorVip, asientoSeleccionado, filaSeleccionada, tarifaSeleccionada, precioVip, totalValorEntradaSeleccionada);
+                                        
                                         entradasConfirmadas++;
                                     }
 
@@ -293,18 +315,10 @@ public class TeatroMoroSemana7 {
 
                                         while (!seleccionarAsiento(sc, filasPlateaBaja, asientosPlateaBaja, filaPlateaBaja1, filaPlateaBaja2, filaPlateaBaja3)) {
                                         }
-
                                         mostrarPlanoAsientos(filasPlateaBaja, asientosPlateaBaja, filaPlateaBaja1, filaPlateaBaja2, filaPlateaBaja3);
-                                        totalValorEntradaSeleccionada = calcularDescuento(sc, precioPlateaBaja, promocion);
+                                        calcularDescuento(sc, precioPlateaBaja);
+                                        añadirAlCarrito(PlateaBaja, asientoSeleccionado, filaSeleccionada, tarifaSeleccionada, precioPlateaBaja, totalValorEntradaSeleccionada);
 
-                                        historialTipoDeEntrada.add(j, PlateaBaja);
-                                        historialAsientos.add(j, asientoSeleccionado);
-                                        historialFilas.add(j, filaSeleccionada);
-                                        historialTarifas.add(j, tarifaSeleccionada);
-                                        historialPrecios.add(j, precioPlateaBaja);
-
-                                        historialPrecioFinal.add(j, totalValorEntradaSeleccionada);
-                                        j = j + 1;
                                         entradasConfirmadas++;
                                     }
 
@@ -332,16 +346,9 @@ public class TeatroMoroSemana7 {
                                         }
 
                                         mostrarPlanoAsientos(filasPlateaAlta, asientosPlateaAlta, filaPlateaAlta1, filaPlateaAlta2, filaPlateaAlta3);
-                                        totalValorEntradaSeleccionada = calcularDescuento(sc, precioPlateaAlta, promocion);
+                                        calcularDescuento(sc, precioPlateaAlta);
+                                        añadirAlCarrito(PlateaAlta, asientoSeleccionado, filaSeleccionada, tarifaSeleccionada, precioPlateaAlta, totalValorEntradaSeleccionada);
 
-                                        historialTipoDeEntrada.add(j, PlateaAlta);
-                                        historialAsientos.add(j, asientoSeleccionado);
-                                        historialFilas.add(j, filaSeleccionada);
-                                        historialTarifas.add(j, tarifaSeleccionada);
-                                        historialPrecios.add(j, precioPlateaAlta);
-
-                                        historialPrecioFinal.add(j, totalValorEntradaSeleccionada);
-                                        j = j + 1;
                                         entradasConfirmadas++;
                                     }
 
@@ -391,16 +398,9 @@ public class TeatroMoroSemana7 {
                                         }
 
                                         mostrarPlanoAsientos(filasVip, asientosVip, filaVip1, filaVip2, filaVip3);
-                                        totalValorEntradaSeleccionada = calcularDescuento(sc, precioVip, promocion);
-
-                                        historialTipoDeEntradaReserva.add(h, sectorVip);
-                                        historialAsientosReserva.add(h, asientoSeleccionado);
-                                        historialFilasReserva.add(h, filaSeleccionada);
-                                        historialTarifasReserva.add(h, tarifaSeleccionada);
-                                        historialPreciosReserva.add(h, precioVip);
-
-                                        historialPrecioFinal.add(h, totalValorEntradaSeleccionada);
-                                        h = h + 1;
+                                        calcularDescuento(sc, precioVip);
+                                        añadirAlCarritoReserva(sectorVip, asientoSeleccionado, filaSeleccionada, tarifaSeleccionada, precioVip, totalValorEntradaSeleccionada);
+                                        
                                         entradasConfirmadas++;
                                         reservaPendiente = true;
 
@@ -430,16 +430,9 @@ public class TeatroMoroSemana7 {
                                         }
 
                                         mostrarPlanoAsientos(filasPlateaBaja, asientosPlateaBaja, filaPlateaBaja1, filaPlateaBaja2, filaPlateaBaja3);
-                                        totalValorEntradaSeleccionada = calcularDescuento(sc, precioPlateaBaja, promocion);
+                                        calcularDescuento(sc, precioPlateaBaja);
+                                        añadirAlCarritoReserva(PlateaBaja, asientoSeleccionado, filaSeleccionada, tarifaSeleccionada, precioPlateaBaja, totalValorEntradaSeleccionada);
 
-                                        historialTipoDeEntradaReserva.add(h, PlateaBaja);
-                                        historialAsientosReserva.add(h, asientoSeleccionado);
-                                        historialFilasReserva.add(h, filaSeleccionada);
-                                        historialTarifasReserva.add(h, tarifaSeleccionada);
-                                        historialPreciosReserva.add(h, precioPlateaBaja);
-
-                                        historialPrecioFinal.add(h, totalValorEntradaSeleccionada);
-                                        h = h + 1;
                                         entradasConfirmadas++;
                                         reservaPendiente = true;
                                     }
@@ -468,17 +461,8 @@ public class TeatroMoroSemana7 {
                                         }
 
                                         mostrarPlanoAsientos(filasPlateaAlta, asientosPlateaAlta, filaPlateaAlta1, filaPlateaAlta2, filaPlateaAlta3);
-                                        totalValorEntradaSeleccionada = calcularDescuento(sc, precioPlateaAlta, promocion);
+                                        calcularDescuento(sc, precioPlateaAlta);
 
-                                        historialTipoDeEntradaReserva.add(h, PlateaAlta);
-                                        historialAsientosReserva.add(h, asientoSeleccionado);
-                                        historialFilasReserva.add(h, filaSeleccionada);
-                                        historialTarifasReserva.add(h, tarifaSeleccionada);
-                                        historialPreciosReserva.add(h, precioPlateaAlta);
-
-                                        historialPrecioFinalReserva.add(h, totalValorEntradaSeleccionada);
-                                        h = h + 1;
-                                        entradasConfirmadas++;
                                         reservaPendiente = true;
                                     }
                                     
@@ -520,6 +504,15 @@ public class TeatroMoroSemana7 {
                         historialTarifas.addAll(historialTarifasReserva);
                         historialPrecios.addAll(historialPreciosReserva);
                         historialPrecioFinal.addAll(historialPrecioFinalReserva);
+                        
+                        historialTipoDeEntradaReserva.clear();
+                        historialAsientosReserva.clear();
+                        historialFilasReserva.clear();
+                        historialTarifasReserva.clear();
+                        historialPreciosReserva.clear();
+                        historialPrecioFinalReserva.clear();
+                                
+                        h = 0;
                         
                         System.out.println("Confirmando reservas de entradas... Reservas confirmadas." + saltoDeLinea + saltoDeLinea + "Escriba 0 para volver al Menu Principal");
                         opcionMenuRetorno = sc.nextInt();
@@ -637,20 +630,24 @@ public class TeatroMoroSemana7 {
                                                 String tipoEntrada = historialTipoDeEntrada.get(opcionEliminarEntrada - 1);
 
 
-                                                if (tipoEntrada.equals("Sector VIP")) {
-                                                    if (fila == 1) filaVip1[asiento - 1] = false;
-                                                    else if (fila == 2) filaVip2[asiento - 1] = false;
-                                                    else if (fila == 3) filaVip3[asiento - 1] = false;
-                                                } 
-                                                else if (tipoEntrada.equals("Platea Baja")) {
-                                                    if (fila == 1) filaPlateaBaja1[asiento - 1] = false;
-                                                    else if (fila == 2) filaPlateaBaja2[asiento - 1] = false;
-                                                    else if (fila == 3) filaPlateaBaja3[asiento - 1] = false;
-                                                } 
-                                                else if (tipoEntrada.equals("Platea Alta")) {
-                                                    if (fila == 1) filaPlateaAlta1[asiento - 1] = false;
-                                                    else if (fila == 2) filaPlateaAlta2[asiento - 1] = false;
-                                                    else if (fila == 3) filaPlateaAlta3[asiento - 1] = false;
+                                                switch (tipoEntrada) {
+                                                    case "Sector VIP":
+                                                        if (fila == 1) filaVip1[asiento - 1] = false;
+                                                        else if (fila == 2) filaVip2[asiento - 1] = false;
+                                                        else if (fila == 3) filaVip3[asiento - 1] = false;
+                                                        break;
+                                                    case "Platea Baja":
+                                                        if (fila == 1) filaPlateaBaja1[asiento - 1] = false;
+                                                        else if (fila == 2) filaPlateaBaja2[asiento - 1] = false;
+                                                        else if (fila == 3) filaPlateaBaja3[asiento - 1] = false;
+                                                        break;
+                                                    case "Platea Alta":
+                                                        if (fila == 1) filaPlateaAlta1[asiento - 1] = false;
+                                                        else if (fila == 2) filaPlateaAlta2[asiento - 1] = false;
+                                                        else if (fila == 3) filaPlateaAlta3[asiento - 1] = false;
+                                                        break;
+                                                    default:
+                                                        break;
                                                 }
                                                 
                                                 historialTipoDeEntrada.remove(opcionEliminarEntrada - 1);
